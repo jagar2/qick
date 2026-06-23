@@ -171,7 +171,9 @@ setup(
     # projects.
     extras_require={
         # install all extra optional dependencies
-        'full': ['pyro4'],
+        'full': ['pyro4', 'dataerai', 'matplotlib'],
+        # dependencies for the qick_dataerai provenance-capture package
+        'dataerai': ['dataerai', 'matplotlib'],
     },
 
     # If there are data files included in your packages that need to be
@@ -182,7 +184,8 @@ setup(
                  'ipq_pynq_utils/ipq_pynq_utils/data/*.txt',
                  'ipq_pynq_utils/ipq_pynq_utils/data/*.h',
                  'ipq_pynq_utils/ipq_pynq_utils/data/clockFiles/*.txt',
-                 ]
+                 ],
+        'qick_dataerai': ['VERSION'],
     },
     include_package_data=True,
 
