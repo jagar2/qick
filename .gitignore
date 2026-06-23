@@ -71,3 +71,7 @@ Temporary Items
 
 !/.gitignore
 !/README.md
+
+# test artifacts
+.coverage
+__pycache__/
