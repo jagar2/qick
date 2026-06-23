@@ -195,3 +195,25 @@ def test_no_relationship_without_config():
 def test_invalid_on_error_rejected():
     with pytest.raises(ValueError):
         _run(FakeClient(), on_error="nope")
+
+
+def test_fail_fast_on_relationship_failure():
+    client = FakeClient(fail_on={"relationship"})
+    with pytest.raises(RunError):
+        with _run(client, on_error="fail_fast") as run:
+            run.log_config(_cfg())             # upload ok (only relationships fail)
+            run.log_acquisition(data=_sweep_data())  # raw upload ok, then edge raises
+    # The raw upload still happened before the failing edge.
+    assert any(u.metadata[META_ROLE] == "raw_data" for u in client.uploads)
+
+
+def test_log_acquisition_requires_data():
+    run = _run(FakeClient())
+    with pytest.raises(ValueError):
+        run.log_acquisition(data=None)
+
+
+def test_log_analysis_requires_fig_or_data():
+    run = _run(FakeClient())
+    with pytest.raises(ValueError):
+        run.log_analysis()

@@ -171,9 +171,10 @@ setup(
     # projects.
     extras_require={
         # install all extra optional dependencies
-        'full': ['pyro4', 'dataerai', 'matplotlib'],
+        'full': ['pyro4', 'dataerai-sdk', 'matplotlib'],
         # dependencies for the qick_dataerai provenance-capture package
-        'dataerai': ['dataerai', 'matplotlib'],
+        # (the SDK is imported as `dataerai` but published as `dataerai-sdk`)
+        'dataerai': ['dataerai-sdk', 'matplotlib'],
     },
 
     # If there are data files included in your packages that need to be

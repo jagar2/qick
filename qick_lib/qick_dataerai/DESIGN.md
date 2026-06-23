@@ -53,7 +53,7 @@ changing one call.
 
 ## Verification
 
-- **Unit:** `qick_lib/qick_dataerai/tests/` — 27 tests, all green via
+- **Unit:** `qick_lib/qick_dataerai/tests/` — 35 tests, all green via
   `PYTHONPATH=qick_lib python -m pytest qick_lib/qick_dataerai/tests/`. Coverage:
   - `test_provenance.py` — 3 uploads + 2 correctly-directed relationships,
     `run_id`/tags/role propagation, `capture_run` equivalence, decimated

@@ -24,7 +24,8 @@ _HINTS = {
     ),
     "dataerai": (
         "the Dataerai SDK is required to upload assets; "
-        "install it with `pip install qick[dataerai]` or `pip install dataerai`."
+        "install it with `pip install qick[dataerai]` or `pip install dataerai-sdk` "
+        "(the SDK is imported as `dataerai` but published as `dataerai-sdk`)."
     ),
 }
 

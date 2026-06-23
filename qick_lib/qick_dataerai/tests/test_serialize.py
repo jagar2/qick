@@ -41,7 +41,24 @@ def test_config_numpy_values(tmp_path):
     serialize.write_config_json(path, cfg, run_id="r")  # NpEncoder handles numpy
 
     doc = json.loads(open(path).read())  # parses without error
-    assert "i" in doc["cfg"] and "f" in doc["cfg"] and "arr" in doc["cfg"]
+    # Encoded as real JSON numbers / a structured value — NOT the str() fallback,
+    # so a regression to str() (e.g. NpEncoder dropped) would fail here.
+    assert isinstance(doc["cfg"]["i"], int) and doc["cfg"]["i"] == 7
+    assert isinstance(doc["cfg"]["f"], float)
+    assert not isinstance(doc["cfg"]["arr"], str)
+
+
+def test_config_encoder_fallback_without_npencoder(tmp_path, monkeypatch):
+    import sys
+    import types
+
+    # Force `from qick.helpers import NpEncoder` to fail -> base json.JSONEncoder,
+    # exercising the ndarray -> tolist() last-resort fallback.
+    monkeypatch.setitem(sys.modules, "qick.helpers", types.ModuleType("qick.helpers"))
+    path = str(tmp_path / "cfg.json")
+    serialize.write_config_json(path, {"arr": np.arange(3)}, run_id="r")
+    doc = json.loads(open(path).read())
+    assert doc["cfg"]["arr"] == [0, 1, 2]
 
 
 class _FakeProg:
@@ -88,6 +105,45 @@ def test_iq_npz_variants(tmp_path, data, expected_key):
     serialize.write_iq_npz(path, data)
     loaded = np.load(path)
     assert expected_key in loaded.files
+
+
+def test_iq_npz_2tuple_bare_arrays(tmp_path):
+    # A 2-tuple of bare ndarrays (not per-channel lists) -> no _ch suffix.
+    path = str(tmp_path / "iq.npz")
+    serialize.write_iq_npz(path, (np.zeros(3), np.ones(3)))
+    loaded = np.load(path)
+    assert "avg_di" in loaded.files and "avg_dq" in loaded.files
+    assert "avg_di_ch0" not in loaded.files
+
+
+def test_iq_npz_4tuple(tmp_path):
+    path = str(tmp_path / "iq.npz")
+    serialize.write_iq_npz(path, (np.zeros(1), np.zeros(1), np.zeros(1), np.zeros(1)))
+    loaded = np.load(path)
+    assert {"data_0", "data_1", "data_2", "data_3"} <= set(loaded.files)
+
+
+def test_iq_npz_multi_element_expt_pts(tmp_path):
+    path = str(tmp_path / "iq.npz")
+    serialize.write_iq_npz(path, {"x": np.zeros(2)}, expt_pts=[np.arange(2), np.arange(3)])
+    loaded = np.load(path)
+    assert "expt_pts_0" in loaded.files and "expt_pts_1" in loaded.files
+
+
+class _ProgWithBuffers:
+    di_buf = np.array([1, 2, 3])
+    dq_buf = np.array([4, 5, 6])
+    loop_dims = [2, 3]
+
+
+def test_iq_npz_prog_buffers_and_loop_dims(tmp_path):
+    path = str(tmp_path / "iq.npz")
+    meta = serialize.write_iq_npz(
+        path, (np.zeros(2), [np.zeros(2)], [np.zeros(2)]), prog=_ProgWithBuffers()
+    )
+    loaded = np.load(path)
+    assert "di_buf" in loaded.files and "dq_buf" in loaded.files
+    assert meta["loop_dims"] == [2, 3]
 
 
 def test_temp_files_cleaned_up():
