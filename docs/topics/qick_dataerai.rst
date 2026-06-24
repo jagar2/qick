@@ -122,6 +122,8 @@ failure instead.
 Trying it without hardware
 --------------------------
 
-A runnable, board-free demo lives at
-``qick_lib/qick_dataerai/examples/provenance_demo.py``; it drives ``capture_run``
-against a local recording client and prints the provenance graph it would create.
+A full tutorial notebook lives at ``qick_demos/10_Dataerai_provenance.ipynb``: it
+simulates a T1 measurement and captures it against a local recording client, so it
+runs end-to-end **without a board or a Dataerai login**, then shows how to swap in
+the real :class:`dataerai.DataeraiClient`. A minimal script version is at
+``qick_lib/qick_dataerai/examples/provenance_demo.py``.
