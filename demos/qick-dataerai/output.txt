@@ -1,0 +1,15 @@
+Capturing a QICK run into Dataerai (dry run):
+
+  upload  [config   ] asset-1  'QICK run — config'  (json)
+  upload  [raw_data ] asset-2  'QICK run — raw data'  (npz)
+  link    asset-2 --acquired_with--> asset-1
+  upload  [analysis ] asset-3  'QICK run — analysis'  (npz)
+  link    asset-3 --analysis_of--> asset-2  [non_destructive]
+
+Run summary:
+  run_id           : a646bb4ad97441e185de9771e7515a74
+  config asset     : asset-1
+  raw data assets  : ['asset-2']
+  analysis assets  : ['asset-3']
+  relationships    : ['rel-1', 'rel-2']
+  errors           : none

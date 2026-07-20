@@ -20,3 +20,6 @@ Software API
    qick.asm_v2
    qick.tprocv2_assembler
    qick.rfboard
+   qick_dataerai
+   qick_dataerai.provenance
+   qick_dataerai.serialize

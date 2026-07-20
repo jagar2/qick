@@ -83,6 +83,8 @@ If you're interested in using QICK to control and read out NV centers or other q
 
 If you want to use QICK for control and readout of solid-state spin qubits, `SpinQICK <https://github.com/HRL-Laboratories/spinqick>`_ extends the QICK API and provides high-level experiment code.
 
+If you want to automatically capture the provenance of every measurement — uploading each run's configuration, raw data, and analysis as linked, traceable assets — the bundled ``qick_dataerai`` package integrates QICK with `Dataerai <https://dataerai.com>`_: see :doc:`/topics/qick_dataerai`.
+
 QICK papers
 -------------
 

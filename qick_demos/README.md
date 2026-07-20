@@ -31,6 +31,11 @@ Below is a brief summary of the QICK software capabilities.
 * N-dimensional sweeps [Demo 07_Sweep_ND_variables](https://github.com/openquantumhardware/qick/blob/main/qick_demos/07_Sweep_ND_variables.ipynb)
 * Learn how labs have used the QICK! Check out [our papers page](https://qick-docs.readthedocs.io/latest/papers.html)
 
+## Capturing experiment provenance with Dataerai
+* Basic example given in [Demo 10_Dataerai_provenance](https://github.com/openquantumhardware/qick/blob/main/qick_demos/10_Dataerai_provenance.ipynb)
+* Automatically upload a run's configuration, raw data, and analysis to [Dataerai](https://dataerai.com) as linked, traceable assets using the bundled `qick_dataerai` package
+* The demo notebook runs end-to-end **without a board or a Dataerai login** (it uses a local recording client and simulated data), then shows how to swap in the real client
+
 ## Other examples of QICK measurement code, shared by QICK collaborators
 
 * [IEEE Quantum Week 2023 QICK tutorial](https://github.com/openquantumhardware/QCE2023_public)

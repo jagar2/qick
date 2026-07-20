@@ -12,3 +12,4 @@ Specific topics
    units
    changing_fs
    reference_clock
+   qick_dataerai
